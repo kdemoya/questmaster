@@ -1,0 +1,35 @@
+service: questmaster
+
+provider:
+  name: aws
+  runtime: nodejs8
+  stage: dev
+  region: us-east-1
+  profile: production
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:us-east-1:*:*"
+  environment:
+    SLACK_CLIENT_ID: ${file(./config.json):SLACK.CLIENT_ID}
+    SLACK_CLIENT_SECRET: ${file(./config.json):SLACK.CLIENT_SECRET}
+    SLACK_BOT_TOKEN: ${file(./config.json):SLACK.BOT_TOKEN}
+
+functions:
+  slack:
+    handler: build/index.handler
+    events:
+      ## Slash Commands, Events, and Interactive Messages
+      - http:
+          path: ${file(./config.json):SLACK.EVENT_PATH}
+          method: post
+          integration: lambda
+          response:
+            template: $input.path('$')

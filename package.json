@@ -1,0 +1,14 @@
+{
+  "name": "questmaster",
+  "version": "1.0.0",
+  "description": "Elonian Quest Management AI",
+  "repository": "git@github.com:kdemoya/questmaster.git",
+  "author": "Kelvin De Moya <kdemoya17@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "slack-node": "^0.1.8"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0"
+  }
+}
