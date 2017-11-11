@@ -104,3 +104,4 @@ typings/
 .env
 
 config.json
+.serverless

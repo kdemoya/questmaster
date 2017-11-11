@@ -2,10 +2,10 @@ service: questmaster
 
 provider:
   name: aws
-  runtime: nodejs8
+  runtime: nodejs6.10
   stage: dev
   region: us-east-1
-  profile: production
+  profile: default
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -23,13 +23,9 @@ provider:
     SLACK_BOT_TOKEN: ${file(./config.json):SLACK.BOT_TOKEN}
 
 functions:
-  slack:
-    handler: build/index.handler
+  events:
+    handler: functions/index.handler
     events:
-      ## Slash Commands, Events, and Interactive Messages
       - http:
-          path: ${file(./config.json):SLACK.EVENT_PATH}
+          path: events
           method: post
-          integration: lambda
-          response:
-            template: $input.path('$')
